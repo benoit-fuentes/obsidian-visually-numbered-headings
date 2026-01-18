@@ -1,4 +1,5 @@
-import { debounce, Plugin } from "obsidian";
+import { debounce, Plugin, MarkdownView } from "obsidian";
+import { VNumHeadingsListener } from "./VNumHeadingsListener";
 import { cmPlugin } from "./cmPlugin";
 import { CountPluginSettings, DEFAULT_SETTINGS, SettingTab } from "./settings";
 import { Extension } from "@codemirror/state";
@@ -21,6 +22,24 @@ export default class CountPlugin extends Plugin {
 		true
 	);
 
+	vnumheadingsListener: VNumHeadingsListener;
+	constructor(app: any, manifest: any) {
+		super(app, manifest);		
+		this.vnumheadingsListener = new VNumHeadingsListener(this.app);
+		this.vnumheadingsListener.start();
+		this.vnumheadingsListener.addListener(
+			(newValue: string | null, oldValue: string | null) => {
+				console.log( `CountPlugin received change notification: ${oldValue} -> ${newValue}`	);
+				// Force preview re-render
+				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
+				if (markdownView && markdownView.getMode() === "preview") {
+				  markdownView.previewMode.rerender(true);
+				  console.log( "Force preview refresh: previewMode.rerender(true)" );
+				}
+			}
+		);
+	}
+
 	async onload(): Promise<void> {
 		await this.loadSettings();
 		this.addSettingTab(new SettingTab(this.app, this));
@@ -42,6 +61,9 @@ export default class CountPlugin extends Plugin {
 		);
 
 		this.registerMarkdownPostProcessor((element, context) => {
+			if(this.vnumheadingsListener.currentVNumHeadings!=="1" )
+				return;
+				
 			const headings =
 				element.querySelectorAll<HTMLElement>("h1,h2,h3,h4,h5,h6");
 

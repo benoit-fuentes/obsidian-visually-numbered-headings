@@ -10,6 +10,7 @@ import {
 	WidgetType,
 } from "@codemirror/view";
 import CountPlugin from "./main";
+import { VNumHeadingsListener } from "./VNumHeadingsListener";
 
 const className = "HyperMD-header_HyperMD-header-";
 
@@ -35,11 +36,24 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 			constructor(view: EditorView) {
 				this.decorations = this.buildDecorations(view);
+
+				plugin.vnumheadingsListener.addListener(
+					(newValue: string | null, oldValue: string | null) => {
+						console.log(`headingCountPlugin received change notification: ${oldValue} -> ${newValue}`);
+						// force to fresh editor view
+						this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(view);
+						if (view && !view.isDestroyed) {
+							view.dispatch({
+							  changes: { from: 0, to: 0 }
+							});
+						}
+					}
+				);
 			}
 
 			update(update: ViewUpdate) {
 				if (update.docChanged || update.viewportChanged) {
-					this.decorations = this.buildDecorations(update.view);
+					this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(update.view); //patch
 				}
 			}
 
