@@ -55,15 +55,15 @@ export default class CountPlugin extends Plugin {
 
 			const numGen = this.mdNumGenCache.get(docId) as NumberGenerator;
 
-			for (const [, h] of headings.entries()) {
-				const lastChild = headings.item(
-					headings.length - 1
-				) as HTMLElement;
-				const hLvl = Number(lastChild.tagName[1]);
-
-				if (!lastChild) continue;
-
-				const num = numGen?.nextNum(hLvl);
+			for (const h of headings) {
+				const hLvl = Number(h.tagName[1]); 
+				
+				if (element.closest('.print') !== null && h.classList.contains('__title__')) {
+				  console.log('PDF export: Skip inline title, dont number its heading');
+				  continue;
+				}
+			
+				const num = numGen ? numGen.nextNum(hLvl) : "";
 				context.addChild(new PreviewCount(h, num));
 			}
 		}, 10);
