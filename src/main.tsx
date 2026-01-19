@@ -32,7 +32,7 @@ export default class CountPlugin extends Plugin {
 				console.log( `CountPlugin received change notification: ${oldValue} -> ${newValue}`	);
 				// Force preview re-render
 				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView && markdownView.getMode() === "preview") {
+				if (!this.vnumheadingsListener.fileChanged && markdownView && markdownView.getMode() === "preview") {
 				  markdownView.previewMode.rerender(true);
 				  console.log( "Force preview refresh: previewMode.rerender(true)" );
 				}
@@ -57,6 +57,11 @@ export default class CountPlugin extends Plugin {
 		this.registerEvent(
 			this.app.metadataCache.on("changed", () => {
 				this.resetCache();
+			})
+		);
+		
+		this.registerEvent(this.app.workspace.on("active-leaf-change", () => {
+			this.mdNumGenCache.clearAll();
 			})
 		);
 

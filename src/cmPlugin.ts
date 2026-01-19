@@ -53,7 +53,7 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 			update(update: ViewUpdate) {
 				if (update.docChanged || update.viewportChanged) {
-					this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(update.view); //patch
+					this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(update.view);
 				}
 			}
 
