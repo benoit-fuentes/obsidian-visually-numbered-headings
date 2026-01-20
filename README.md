@@ -26,7 +26,9 @@ The plugin is not yet available in Obsidian community plugin list, so it has to 
     > **Note**: You might be prompted about [Restricted Mode](https://help.obsidian.md/Advanced+topics/Community+plugins#Safe+Mode). You can disable it and enable the plugin. Another way is to head to Settings → Community plugins. Disable Restricted mode and enable the plugin from there.
 
 ---	
-## Fixes and improvements in this fork
+# About this fork
+
+## Fixes and improvements
 
 ### 🐞 Bug Fix: Incorrect heading levels during PDF export
 
