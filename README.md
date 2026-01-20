@@ -19,7 +19,7 @@ The plugin is not yet available in Obsidian community plugin list, so it has to 
 
 ### From GitHub
 
-1. **Download** the [latest release zip file](https://github.com/platon-ivanov/obsidian-visual-numbered-headings/releases/latest)
+1. **Download** the [latest release zip file](https://github.com/platon-ivanov/obsidian-visually-numbered-headings/releases/latest)
 2. **Extract** the whole `obsidian-visually-numbered-headings` folder from the zip to your vault's plugins folder: `<vault>/.obsidian/plugins/obsidian-visual-numbered-headings`
     > **Note**: On some machines the `.obsidian` folder may be hidden by default.
 3. **Enable** the plugin in the `Community plugins` tab
@@ -47,3 +47,15 @@ A new standalone listener, **`VNumHeadingsListener`**, has been introduced to mo
 * Triggers a preview re-render when the value changes
 
 This allows users to control heading numbering **per document**, without reloading or reopening the file.
+
+## Installation
+
+The plugin is not yet available in Obsidian community plugin list, so it has to be installed manually for now.
+
+### From GitHub
+
+1. **Download** the [latest release zip file](https://github.com/myflocky/obsidian-visually-numbered-headings/releases/latest)
+2. **Extract** the whole `obsidian-visually-numbered-headings` folder from the zip to your vault's plugins folder: `<vault>/.obsidian/plugins/obsidian-visual-numbered-headings`
+    > **Note**: On some machines the `.obsidian` folder may be hidden by default.
+3. **Enable** the plugin in the `Community plugins` tab
+    > **Note**: You might be prompted about [Restricted Mode](https://help.obsidian.md/Advanced+topics/Community+plugins#Safe+Mode). You can disable it and enable the plugin. Another way is to head to Settings → Community plugins. Disable Restricted mode and enable the plugin from there.
