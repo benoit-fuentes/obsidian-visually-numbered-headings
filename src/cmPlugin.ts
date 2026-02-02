@@ -41,7 +41,7 @@ export function headingCountPlugin(plugin: CountPlugin) {
 					(newValue: string | null, oldValue: string | null) => {
 						console.log(`headingCountPlugin received change notification: ${oldValue} -> ${newValue}`);
 						// force to fresh editor view
-						this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(view);
+						this.decorations = this.buildDecorations(view);
 						if (view && !view.isDestroyed) {
 							view.dispatch({
 							  changes: { from: 0, to: 0 }
@@ -53,7 +53,7 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 			update(update: ViewUpdate) {
 				if (update.docChanged || update.viewportChanged) {
-					this.decorations = plugin.vnumheadingsListener.currentVNumHeadings!=="1" ? (new RangeSetBuilder<Decoration>()).finish() : this.buildDecorations(update.view);
+					this.decorations = this.buildDecorations(update.view);
 				}
 			}
 
@@ -61,6 +61,9 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 			buildDecorations(view: EditorView): DecorationSet {
 				const builder = new RangeSetBuilder<Decoration>();
+				if(plugin.vnumheadingsListener.currentVNumHeadings!=="1")
+					return builder.finish();
+				
 				const numGen = new NumberGenerator(plugin);
 
 				syntaxTree(view.state).iterate({
