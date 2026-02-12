@@ -26,20 +26,8 @@
 
 @media print {
     .__title__ {
-        /* color: #0066cc !important;   blue */
-        color: #457b9d !important;  /* blue */
-        text-align: center !important;  /* center alignment */
-
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-
-        /* font size one level larger than h1: assuming h1 is 2em, set this to 2.4em */
+        color: var(--inline-title-color) !important;
+        text-align: center !important;
         font-size: 2em !important;
-
-        /* optional: enhanced print styling */
-        font-weight: bold !important;
-        margin-top: 1.5em !important;
-        margin-bottom: 1em !important;
-        page-break-after: avoid !important; /* avoid page break after this title */
     }
 }
