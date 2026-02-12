@@ -1,0 +1,18 @@
+@media print {
+	.theme-light{
+		--DarkOrange-color  : rgb(210, 140, 90);
+		--Red-color         : rgb(255, 0, 0);
+		--Orange-color      : rgb(255, 108, 13);
+		--LightBlue-color   : rgb(0, 176, 240);
+		--DarkBlue-color    : rgb(0, 112, 192);
+		--DarkGreen-color   : rgb(0, 138, 102); 
+		--DarkPurple-color  : rgb(112, 48, 160);
+
+		--h1-color:                      var(--Red-color         ) !important; /*var(--red);    */
+		--h2-color:                      var(--Orange-color      ) !important; /*var(--yellow); */
+		--h3-color:                      var(--LightBlue-color   ) !important; /*var(--green);  */
+		--h4-color:                      var(--DarkBlue-color    ) !important; /*var(--purple); */
+		--h5-color:                      var(--DarkGreen-color   ) !important; /*var(--frost0); */
+		--h6-color:                      var(--DarkPurple-color  ) !important; /*var(--frost2); */
+	}
+}

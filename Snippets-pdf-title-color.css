@@ -1,0 +1,6 @@
+@media print {
+	.theme-light{
+		--DarkDarkBlue-color: rgb(69, 123, 157);	
+		--inline-title-color:            var(--DarkDarkBlue-color) !important;		
+	}
+}
