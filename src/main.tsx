@@ -21,6 +21,8 @@ export default class CountPlugin extends Plugin {
 		1000,
 		true
 	);
+	
+	private FirstSection: number | null = null ;
 
 	vnumheadingsListener: VNumHeadingsListener;
 	constructor(app: any, manifest: any) {
@@ -50,7 +52,7 @@ export default class CountPlugin extends Plugin {
 
 		this.registerEvent(
 			this.app.workspace.on("editor-change", (file, mdView) => {
-				mdView.previewMode.rerender(true);
+				(mdView as any).previewMode?.rerender(true);
 			})
 		);
 
@@ -71,6 +73,24 @@ export default class CountPlugin extends Plugin {
 				
 			const headings =
 				element.querySelectorAll<HTMLElement>("h1,h2,h3,h4,h5,h6");
+			if (headings.length === 0)
+				return;
+				
+			const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
+			if (markdownView && markdownView.getMode() === "preview") {
+				const first = headings[0];
+				const section = context.getSectionInfo(first);
+				if (!section) 
+					return;
+					
+				if (section.lineStart === this.FirstSection) {
+				  this.mdNumGenCache.clearAll(); 
+				}
+				
+				if(this.FirstSection === null){
+					this.FirstSection = section.lineStart;	
+				}
+			}
 
 			const docId = context.docId;
 
