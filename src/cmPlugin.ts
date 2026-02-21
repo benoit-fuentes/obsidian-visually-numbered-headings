@@ -42,7 +42,7 @@ export function headingCountPlugin(plugin: CountPlugin) {
 						console.log(`headingCountPlugin received change notification: ${oldValue} -> ${newValue}`);
 						// force to fresh editor view
 						this.decorations = this.buildDecorations(view);
-						if (view && !view.isDestroyed) {
+						if (view && !(view as any).isDestroyed) {
 							view.dispatch({
 							  changes: { from: 0, to: 0 }
 							});
