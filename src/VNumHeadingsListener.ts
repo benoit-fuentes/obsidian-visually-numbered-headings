@@ -7,7 +7,7 @@ import { App, TFile } from "obsidian";
 export class VNumHeadingsListener {
   private app: App;
 
-  private currentVNumHeadings: string | null = null;
+  public currentVNumHeadings: string | null = null;
   private currentFile: TFile | null = null;
 
   private listeners: Array<
