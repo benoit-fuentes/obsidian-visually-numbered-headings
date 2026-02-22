@@ -50,6 +50,24 @@ A new standalone listener, **`VNumHeadingsListener`**, has been introduced to mo
 
 This allows users to control heading numbering **per document**, without reloading or reopening the file.
 
+### ✨ New Feature: PDF Export Heading Styles
+
+During PDF export, the document title is rendered centered, and its color follows the theme CSS variable
+`--inline-title-color by default`.
+
+To allow further customization, two optional CSS snippets are provided:
+
+`Snippets-pdf-heading-color.css`
+Customize the colors of different heading levels (H1–H6) in exported PDFs.
+
+`Snippets-pdf-title-color.css`
+Customize the document title color specifically for PDF export.
+
+These snippets are not enabled automatically.
+Users need to manually enable them in Obsidian → Appearance → CSS Snippets.
+
+If these snippets are not enabled, all title and heading colors in the exported PDF will continue to follow the active theme’s color configuration.
+
 ## Installation
 
 The plugin is not yet available in Obsidian community plugin list, so it has to be installed manually for now.
