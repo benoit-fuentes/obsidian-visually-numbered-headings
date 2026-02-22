@@ -22,7 +22,8 @@ export default class CountPlugin extends Plugin {
 		true
 	);
 	
-	private FirstSection: number | null = null ;
+	private firstSection: number | null = null ;
+	private lastDocName: string | null = null ;
 
 	vnumheadingsListener: VNumHeadingsListener;
 	constructor(app: any, manifest: any) {
@@ -63,7 +64,8 @@ export default class CountPlugin extends Plugin {
 		);
 		
 		this.registerEvent(this.app.workspace.on("active-leaf-change", () => {
-			this.mdNumGenCache.clearAll();
+			this.resetCache();
+			this.firstSection = null;
 			})
 		);
 
@@ -77,18 +79,26 @@ export default class CountPlugin extends Plugin {
 				return;
 				
 			const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-			if (markdownView && markdownView.getMode() === "preview") {
+			if (markdownView && markdownView.getMode() === "preview") {			
+				const docName = context.sourcePath?.split("/").pop()?? null;
+				if(docName !== this.lastDocName)
+				{
+				  this.mdNumGenCache.clearAll();
+				  this.firstSection = null;
+				}
+				this.lastDocName = docName;
+			
 				const first = headings[0];
 				const section = context.getSectionInfo(first);
 				if (!section) 
 					return;
 					
-				if (section.lineStart === this.FirstSection) {
+				if (section.lineStart === this.firstSection) {
 				  this.mdNumGenCache.clearAll(); 
 				}
 				
-				if(this.FirstSection === null){
-					this.FirstSection = section.lineStart;	
+				if(this.firstSection === null){
+					this.firstSection = section.lineStart;	
 				}
 			}
 
