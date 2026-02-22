@@ -70,7 +70,7 @@ export default class CountPlugin extends Plugin {
 		);
 
 		this.registerMarkdownPostProcessor((element, context) => {
-			if(this.vnumheadingsListener.currentVNumHeadings!=="1" )
+			if(this.vnumheadingsListener.currentVNumHeadings==="0" )
 				return;
 				
 			const headings =
