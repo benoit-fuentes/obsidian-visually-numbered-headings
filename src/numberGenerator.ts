@@ -12,6 +12,11 @@ export class NumberGenerator {
 	}
 
 	nextNum(lvl: number) {
+		// Skip numbering if level is beyond countLastLvl
+		if (lvl > this.plugin.settings.countLastLvl) {
+			this.prevLvl = lvl;
+			return "";
+		}
 		this.incrementLvl(lvl);
 
 		if (lvl < this.prevLvl) {
@@ -20,7 +25,7 @@ export class NumberGenerator {
 
 		const newArr = [...this.arr].slice(
 			this.plugin.settings.countStartLvl - 1,
-			lvl
+			lvl,
 		);
 
 		this.prevLvl = lvl;

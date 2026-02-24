@@ -39,15 +39,17 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 				plugin.vnumheadingsListener.addListener(
 					(newValue: string | null, oldValue: string | null) => {
-						console.log(`headingCountPlugin received change notification: ${oldValue} -> ${newValue}`);
+						console.log(
+							`headingCountPlugin received change notification: ${oldValue} -> ${newValue}`,
+						);
 						// force to fresh editor view
 						this.decorations = this.buildDecorations(view);
 						if (view && !(view as any).isDestroyed) {
 							view.dispatch({
-							  changes: { from: 0, to: 0 }
+								changes: { from: 0, to: 0 },
 							});
 						}
-					}
+					},
 				);
 			}
 
@@ -61,9 +63,9 @@ export function headingCountPlugin(plugin: CountPlugin) {
 
 			buildDecorations(view: EditorView): DecorationSet {
 				const builder = new RangeSetBuilder<Decoration>();
-				if(plugin.vnumheadingsListener.currentVNumHeadings==="0")
+				if (plugin.vnumheadingsListener.currentVNumHeadings === "0")
 					return builder.finish();
-				
+
 				const numGen = new NumberGenerator(plugin);
 
 				syntaxTree(view.state).iterate({
@@ -73,16 +75,17 @@ export function headingCountPlugin(plugin: CountPlugin) {
 						if (nodeName.startsWith(className)) {
 							const hRef = node;
 							const hLevel = Number(nodeName.split(className)[1]);
-
-							builder.add(
-								hRef.from,
-								hRef.from,
-								Decoration.widget({
-									widget: new CountWidget(
-										numGen.nextNum(hLevel)
-									),
-								})
-							);
+							if (hLevel <= plugin.settings.countLastLvl) {
+								builder.add(
+									hRef.from,
+									hRef.from,
+									Decoration.widget({
+										widget: new CountWidget(
+											numGen.nextNum(hLevel),
+										),
+									}),
+								);
+							}
 						}
 					},
 				});
@@ -90,7 +93,7 @@ export function headingCountPlugin(plugin: CountPlugin) {
 				return builder.finish();
 			}
 		},
-		{ decorations: (v) => v.decorations }
+		{ decorations: (v) => v.decorations },
 	);
 }
 

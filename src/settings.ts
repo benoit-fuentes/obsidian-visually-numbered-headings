@@ -5,12 +5,14 @@ export interface CountPluginSettings {
 	joinSymbol: string;
 	endSymbol: string;
 	countStartLvl: number;
+	countLastLvl: number;
 }
 
 export const DEFAULT_SETTINGS: Partial<CountPluginSettings> = {
 	joinSymbol: ".",
-	endSymbol: ". ",
+	endSymbol: " ",
 	countStartLvl: 1,
+	countLastLvl: 6,
 };
 
 export class SettingTab extends PluginSettingTab {
@@ -35,7 +37,7 @@ export class SettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.joinSymbol)
 					.onChange(async (value) => {
 						await this.plugin.updateSettings({ joinSymbol: value });
-					})
+					}),
 			);
 		new Setting(containerEl)
 			.setName("Ending symbol")
@@ -46,7 +48,7 @@ export class SettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.endSymbol)
 					.onChange(async (value) => {
 						await this.plugin.updateSettings({ endSymbol: value });
-					})
+					}),
 			);
 
 		new Setting(containerEl)
@@ -60,11 +62,32 @@ export class SettingTab extends PluginSettingTab {
 					"4": "4",
 					"5": "5",
 					"6": "6",
-				}).onChange(async (value) => {
-					await this.plugin.updateSettings({
-						countStartLvl: Number(value),
+				})
+					.setValue(String(this.plugin.settings.countStartLvl))
+					.onChange(async (value) => {
+						await this.plugin.updateSettings({
+							countStartLvl: Number(value),
+						});
 					});
-				});
+			});
+		new Setting(containerEl)
+			.setName("Last level")
+			.setDesc("Last heading level to count")
+			.addDropdown((el) => {
+				el.addOptions({
+					"1": "1",
+					"2": "2",
+					"3": "3",
+					"4": "4",
+					"5": "5",
+					"6": "6",
+				})
+					.setValue(String(this.plugin.settings.countLastLvl))
+					.onChange(async (value) => {
+						await this.plugin.updateSettings({
+							countLastLvl: Number(value),
+						});
+					});
 			});
 	}
 }
